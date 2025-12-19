@@ -22,7 +22,6 @@ const NavLink = ({ to, icon: Icon, children }) => {
     </Link>
   );
 };
-
 const Navigation = () => (
   <nav className="border-b bg-white sticky top-0 z-10 mb-8 shadow-sm">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +40,6 @@ const Navigation = () => (
     </div>
   </nav>
 );
-
 function App() {
   return (
     <BrowserRouter>
