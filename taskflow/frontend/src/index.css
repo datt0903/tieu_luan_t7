@@ -1,0 +1,9 @@
+/* =========================================
+   GLOBAL STYLES - CAU HINH GIAO DIEN CHUNG
+   ========================================= */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  background-color: #f2f2f2;
+}
