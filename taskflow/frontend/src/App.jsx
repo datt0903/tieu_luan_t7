@@ -40,6 +40,7 @@ const Navigation = () => (
     </div>
   </nav>
 );
+// Day la component App chinh
 function App() {
   return (
     <BrowserRouter>
