@@ -45,8 +45,7 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-red-500">
         
-        <h1 className="text-4xl text-red-600 font-bold p-4">ĐÃ CHẠY ĐÚNG FILE APP!</h1>
-        
+        <h1 className="text-4xl text-red-600 font-bold p-4">ĐÃ CHẠY FRONTEND THÀNH CÔNG!</h1>
         <Navigation />
         <main className="px-4 sm:px-6 lg:px-8 pb-12">
           <Routes>
