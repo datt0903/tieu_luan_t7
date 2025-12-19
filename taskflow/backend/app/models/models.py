@@ -56,3 +56,21 @@ class Issue(Base):
     project = relationship("Project", back_populates="issues")
     owner = relationship("User", foreign_keys=[owner_id])
     assignee = relationship("User", foreign_keys=[assignee_id])
+    comments = relationship("Comment", back_populates="issue", cascade="all, delete-orphan")
+
+
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    content = Column(Text, nullable=False)
+    issue_id = Column(Integer, ForeignKey("issues.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    issue = relationship("Issue", back_populates="comments")
+    user = relationship("User")
+
+
+    

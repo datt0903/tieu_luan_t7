@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.db.session import engine, Base
 from app.core.websocket_manager import manager
 # Import từ api/v1
-from app.api.v1 import issues, projects, auth
+from app.api.v1 import issues, projects, auth, comments
 
 Base.metadata.create_all(bind=engine)
 
@@ -22,6 +22,9 @@ app.add_middleware(
 app.include_router(issues.router, prefix="/api/v1", tags=["issues"])
 app.include_router(projects.router, prefix="/api/v1", tags=["projects"])
 app.include_router(auth.router, prefix="/api/v1", tags=["auth"])
+app.include_router(comments.router, prefix="/api/v1", tags=["comments"])
+
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

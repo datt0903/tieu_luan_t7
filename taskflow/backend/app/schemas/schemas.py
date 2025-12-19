@@ -91,4 +91,28 @@ class StatsResponse(BaseModel):
     total_issues: int
     issues_by_status: Dict[str, int]
     recent_issues: List[Issue]
-s
+
+
+
+
+
+# --- Comment ---
+class CommentBase(BaseModel):
+    content: str
+
+class CommentCreate(CommentBase):
+    pass
+
+class CommentUpdate(BaseModel):
+    content: Optional[str] = None
+
+class Comment(CommentBase):
+    id: int
+    issue_id: int
+    user_id: int
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
