@@ -48,8 +48,10 @@ function App() {
       <div className="min-h-screen bg-red-500">
         
         <h1 className="text-4xl text-red-600 font-bold p-4">ĐÃ CHẠY FRONTEND THÀNH CÔNG!</h1>
+        {/* --- Khu vuc Menu dieu huong --- */}
         <Navigation />
         <main className="px-4 sm:px-6 lg:px-8 pb-12">
+          {/* --- Khu vuc chuyen trang (Routes) --- */}
           <Routes>
             <Route path="/" element={<IssuesPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
