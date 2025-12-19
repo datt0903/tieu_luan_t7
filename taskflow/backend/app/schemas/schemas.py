@@ -135,3 +135,44 @@ class AttachmentResponse(AttachmentBase):
     
     class Config:
         from_attributes = True
+
+
+# --- Activity Log ---
+class ActivityBase(BaseModel):
+    action: str
+    entity_type: str
+    entity_id: int
+    details: Optional[dict] = None
+
+class ActivityResponse(ActivityBase):
+    id: int
+    user_id: int
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+# Activity Stats
+class DailyStat(BaseModel):
+    date: str
+    count: int
+
+class TypeStat(BaseModel):
+    type: str
+    count: int
+
+class ActionStat(BaseModel):
+    action: str
+    count: int
+
+class UserStat(BaseModel):
+    user_id: int
+    count: int
+
+class ActivityStatsResponse(BaseModel):
+    period: str
+    total_activities: int
+    daily_stats: List[DailyStat]
+    type_stats: List[TypeStat]
+    action_stats: List[ActionStat]
+    top_users: List[UserStat]

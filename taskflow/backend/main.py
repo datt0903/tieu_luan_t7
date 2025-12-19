@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.db.session import engine, Base
 from app.core.websocket_manager import manager
 # Import từ api/v1
-from app.api.v1 import issues, projects, auth, comments, attachments
+from app.api.v1 import issues, projects, auth, comments, attachments, activity_logs
 
 Base.metadata.create_all(bind=engine)
 
@@ -24,6 +24,7 @@ app.include_router(projects.router, prefix="/api/v1", tags=["projects"])
 app.include_router(auth.router, prefix="/api/v1", tags=["auth"])
 app.include_router(comments.router, prefix="/api/v1", tags=["comments"])
 app.include_router(attachments.router, prefix="/api/v1", tags=["attachments"])
+app.include_router(activity_logs.router, prefix="/api/v1", tags=["activities"])
 
 
 
