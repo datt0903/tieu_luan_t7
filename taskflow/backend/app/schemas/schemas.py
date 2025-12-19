@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict
 from datetime import datetime
 
-# --- User ---
+# -------- USER --------
 class UserBase(BaseModel):
     username: str
     email: EmailStr
@@ -17,10 +17,12 @@ class UserLogin(BaseModel):
 class User(UserBase):
     id: int
     created_at: datetime
+
     class Config:
         from_attributes = True
 
-# --- Project ---
+
+# -------- PROJECT --------
 class ProjectBase(BaseModel):
     name: str
     description: Optional[str] = None
@@ -36,10 +38,12 @@ class Project(ProjectBase):
     id: int
     created_at: datetime
     owner_id: int
+
     class Config:
         from_attributes = True
 
-# --- Issue ---
+
+# -------- ISSUE --------
 class IssueBase(BaseModel):
     title: str
     description: Optional[str] = None
@@ -63,10 +67,12 @@ class Issue(IssueBase):
     id: int
     owner_id: int
     created_at: datetime
+
     class Config:
         from_attributes = True
 
-# --- Stats ---
+
+# -------- STATS --------
 class StatsResponse(BaseModel):
     total_projects: int
     total_issues: int
