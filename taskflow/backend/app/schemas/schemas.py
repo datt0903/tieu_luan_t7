@@ -95,7 +95,6 @@ class StatsResponse(BaseModel):
 
 
 
-
 # --- Comment ---
 class CommentBase(BaseModel):
     content: str
@@ -116,3 +115,23 @@ class Comment(CommentBase):
     class Config:
         from_attributes = True
 
+
+
+# --- Attachment ---
+class AttachmentBase(BaseModel):
+    filename: str
+
+class AttachmentCreate(AttachmentBase):
+    description: Optional[str] = None
+
+class AttachmentResponse(AttachmentBase):
+    id: int
+    file_path: str
+    file_size: int
+    mime_type: str
+    issue_id: int
+    user_id: int
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True

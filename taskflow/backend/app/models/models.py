@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.db.session import Base
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Boolean, JSON
 
 
 # -------- USER --------
@@ -57,7 +58,7 @@ class Issue(Base):
     owner = relationship("User", foreign_keys=[owner_id])
     assignee = relationship("User", foreign_keys=[assignee_id])
     comments = relationship("Comment", back_populates="issue", cascade="all, delete-orphan")
-
+     attachments = relationship("Attachment", back_populates="issue", cascade="all, delete-orphan")  
 
 class Comment(Base):
     __tablename__ = "comments"
@@ -73,4 +74,19 @@ class Comment(Base):
     user = relationship("User")
 
 
+
+
+class Attachment(Base):
+    __tablename__ = "attachments"
     
+    id = Column(Integer, primary_key=True, index=True)
+    filename = Column(String, nullable=False)
+    file_path = Column(String, nullable=False)
+    file_size = Column(Integer)
+    mime_type = Column(String)
+    issue_id = Column(Integer, ForeignKey("issues.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    issue = relationship("Issue", back_populates="attachments")
+    user = relationship("User")
