@@ -58,7 +58,10 @@ class Issue(Base):
     owner = relationship("User", foreign_keys=[owner_id])
     assignee = relationship("User", foreign_keys=[assignee_id])
     comments = relationship("Comment", back_populates="issue", cascade="all, delete-orphan")
-     attachments = relationship("Attachment", back_populates="issue", cascade="all, delete-orphan")  
+    attachments = relationship("Attachment", back_populates="issue", cascade="all, delete-orphan")  
+    labels = relationship("Label", secondary="issue_labels", back_populates="issues")
+
+
 
 class Comment(Base):
     __tablename__ = "comments"
@@ -89,4 +92,19 @@ class Attachment(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     
     issue = relationship("Issue", back_populates="attachments")
+    user = relationship("User")
+
+
+
+    class ActivityLog(Base):
+    __tablename__ = "activity_logs"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    action = Column(String, nullable=False)  # created, updated, deleted, commented, uploaded
+    entity_type = Column(String, nullable=False)  # issue, project, comment, attachment, user
+    entity_id = Column(Integer)
+    details = Column(JSON, nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
     user = relationship("User")

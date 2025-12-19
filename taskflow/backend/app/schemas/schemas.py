@@ -176,3 +176,34 @@ class ActivityStatsResponse(BaseModel):
     type_stats: List[TypeStat]
     action_stats: List[ActionStat]
     top_users: List[UserStat]
+
+
+# --- Label ---
+class LabelBase(BaseModel):
+    name: str
+    color: Optional[str] = "#3498db"
+    description: Optional[str] = None
+
+class LabelCreate(LabelBase):
+    pass
+
+class LabelUpdate(BaseModel):
+    name: Optional[str] = None
+    color: Optional[str] = None
+    description: Optional[str] = None
+
+class Label(LabelBase):
+    id: int
+    created_by: Optional[int] = None
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+# Issue với labels (extend Issue schema)
+class IssueWithLabels(Issue):
+    labels: List[Label] = []
+    
+    class Config:
+        from_attributes = True
