@@ -71,6 +71,19 @@ class Issue(IssueBase):
     class Config:
         from_attributes = True
 
+class IssueWithRelations(IssueBase):
+    id: int
+    creator_id: Optional[int] = None
+    assignee_id: Optional[int] = None
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    creator: Optional[UserResponse] = None
+    assignee: Optional[UserResponse] = None
+    project: Optional[Project] = None
+    
+    class Config:
+        from_attributes = True
+
 
 # -------- STATS --------
 class StatsResponse(BaseModel):
@@ -78,3 +91,4 @@ class StatsResponse(BaseModel):
     total_issues: int
     issues_by_status: Dict[str, int]
     recent_issues: List[Issue]
+s
