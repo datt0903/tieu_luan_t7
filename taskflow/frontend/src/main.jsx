@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx' // <--- ĐỂ Ý DÒNG NÀY: Phải là ./App.jsx (có chấm xẹt)
+import App from './App.jsx'
 import './index.css'
-// Ket noi React vao ID root cua file HTML
+
+// Phải là 'root' mới khớp với index.html ở Bước 1
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )

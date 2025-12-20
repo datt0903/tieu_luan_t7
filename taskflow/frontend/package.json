@@ -14,8 +14,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "axios": "^1.13.2",
     "clsx": "^2.1.1",
+    "firebase": "^12.7.0",
+    "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
