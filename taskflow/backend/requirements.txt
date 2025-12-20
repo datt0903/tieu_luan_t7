@@ -1,6 +1,36 @@
-﻿fastapi==0.104.1
+﻿# Core
+fastapi==0.104.1
 uvicorn[standard]==0.24.0
-websockets==12.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Database
+sqlalchemy==2.0.23
+alembic==1.13.1
+databases[sqlite]==0.8.0
+
+# Authentication & Security
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 python-multipart==0.0.6
+bcrypt==4.1.2
+cryptography==41.0.7
+
+# WebSocket
+websockets==12.0
+starlette==0.36.3
+
+# Email (cho future features)
+email-validator==2.1.0
+
+# Caching (cho future features)
+redis==5.0.1
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.1
+
+# Development
+python-dotenv==1.0.0
+watchfiles==0.21.0

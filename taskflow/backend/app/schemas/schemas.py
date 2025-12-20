@@ -2,6 +2,13 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict
 from datetime import datetime
 
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+    
 # -------- USER --------
 class UserBase(BaseModel):
     username: str

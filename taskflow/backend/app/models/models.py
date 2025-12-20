@@ -96,7 +96,7 @@ class Attachment(Base):
 
 
 
-    class ActivityLog(Base):
+class ActivityLog(Base):
     __tablename__ = "activity_logs"
     
     id = Column(Integer, primary_key=True, index=True)
