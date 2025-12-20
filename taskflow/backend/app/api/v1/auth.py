@@ -11,13 +11,14 @@ from app.schemas.schemas import UserCreate, UserLogin, Token, UserResponse
 
 router = APIRouter()
 
-# Configuration
+# Cấu hình bảo mật
 SECRET_KEY = "your-secret-key-change-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/login")
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -35,14 +36,19 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-@router.post("/register", response_model=UserResponse)
+@router.post("/register", response_model=UserResponse, summary="Đăng ký tài khoản mới")
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    # Kiểm tra nếu user đã tồn tại
+    """
+    Tạo tài khoản người dùng mới:
+    - **username**: Tên đăng nhập duy nhất
+    - **email**: Địa chỉ email duy nhất
+    - **password**: Mật khẩu bảo mật
+    """
     db_user = db.query(User).filter(
         (User.email == user.email) | (User.username == user.username)
     ).first()
     if db_user:
-        raise HTTPException(status_code=400, detail="Email hoặc username đã tồn tại")
+        raise HTTPException(status_code=400, detail="Email hoặc tên đăng nhập đã tồn tại trong hệ thống")
     
     hashed_password = get_password_hash(user.password)
     db_user = User(
@@ -57,13 +63,17 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     return db_user
 
-@router.post("/login", response_model=Token)
+@router.post("/login", response_model=Token, summary="Đăng nhập hệ thống")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    """
+    **Hướng dẫn:** 1. Nhập Username và Password.
+    2. Nhấn Execute để nhận mã Token.
+    """
     user = db.query(User).filter(User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Tên đăng nhập hoặc mật khẩu không đúng",
+            detail="Tên đăng nhập hoặc mật khẩu không chính xác",
             headers={"WWW-Authenticate": "Bearer"},
         )
     

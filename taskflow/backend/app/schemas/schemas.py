@@ -2,17 +2,17 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict
 from datetime import datetime
 
-
-
+# -------- AUTH & TOKEN --------
 class Token(BaseModel):
     access_token: str
     token_type: str
 
-    
 # -------- USER --------
 class UserBase(BaseModel):
     username: str
     email: EmailStr
+    full_name: Optional[str] = None
+    role: Optional[str] = "user"
 
 class UserCreate(UserBase):
     password: str
@@ -21,13 +21,14 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
-class User(UserBase):
+class UserResponse(UserBase):
     id: int
     created_at: datetime
-
     class Config:
         from_attributes = True
 
+# Alias để hỗ trợ nếu code cũ gọi User thay vì UserResponse
+User = UserResponse
 
 # -------- PROJECT --------
 class ProjectBase(BaseModel):
@@ -45,10 +46,8 @@ class Project(ProjectBase):
     id: int
     created_at: datetime
     owner_id: int
-
     class Config:
         from_attributes = True
-
 
 # -------- ISSUE --------
 class IssueBase(BaseModel):
@@ -74,7 +73,6 @@ class Issue(IssueBase):
     id: int
     owner_id: int
     created_at: datetime
-
     class Config:
         from_attributes = True
 
@@ -87,10 +85,8 @@ class IssueWithRelations(IssueBase):
     creator: Optional[UserResponse] = None
     assignee: Optional[UserResponse] = None
     project: Optional[Project] = None
-    
     class Config:
         from_attributes = True
-
 
 # -------- STATS --------
 class StatsResponse(BaseModel):
@@ -99,10 +95,7 @@ class StatsResponse(BaseModel):
     issues_by_status: Dict[str, int]
     recent_issues: List[Issue]
 
-
-
-
-# --- Comment ---
+# -------- COMMENT --------
 class CommentBase(BaseModel):
     content: str
 
@@ -118,13 +111,10 @@ class Comment(CommentBase):
     user_id: int
     created_at: datetime
     updated_at: datetime
-
     class Config:
         from_attributes = True
 
-
-
-# --- Attachment ---
+# -------- ATTACHMENT --------
 class AttachmentBase(BaseModel):
     filename: str
 
@@ -139,12 +129,10 @@ class AttachmentResponse(AttachmentBase):
     issue_id: int
     user_id: int
     created_at: datetime
-    
     class Config:
         from_attributes = True
 
-
-# --- Activity Log ---
+# -------- ACTIVITY LOG & STATS --------
 class ActivityBase(BaseModel):
     action: str
     entity_type: str
@@ -155,11 +143,9 @@ class ActivityResponse(ActivityBase):
     id: int
     user_id: int
     created_at: datetime
-    
     class Config:
         from_attributes = True
 
-# Activity Stats
 class DailyStat(BaseModel):
     date: str
     count: int
@@ -184,8 +170,7 @@ class ActivityStatsResponse(BaseModel):
     action_stats: List[ActionStat]
     top_users: List[UserStat]
 
-
-# --- Label ---
+# -------- LABEL --------
 class LabelBase(BaseModel):
     name: str
     color: Optional[str] = "#3498db"
@@ -204,13 +189,10 @@ class Label(LabelBase):
     created_by: Optional[int] = None
     created_at: datetime
     updated_at: datetime
-    
     class Config:
         from_attributes = True
 
-# Issue với labels (extend Issue schema)
 class IssueWithLabels(Issue):
     labels: List[Label] = []
-    
     class Config:
         from_attributes = True

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from app.db.session import get_db
 from app.models.models import Issue, User
 from app.models.label import Label, issue_labels
-from app.schemas.schemas import LabelSchema
+from app.schemas.schemas import Label as LabelSchema
 from app.core.security import get_current_user, is_manager_or_admin
 from app.core.activity_logger import log_activity
 from app.core.websocket_manager import manager
